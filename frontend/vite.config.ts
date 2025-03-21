@@ -7,5 +7,5 @@ export default defineConfig({
   server: {
     port: 2000
   },
-  assetsInclude: ['**/*.html'],
+  assetsInclude: ['**/*.html', '**/*.ttf'],
 });

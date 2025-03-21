@@ -74,14 +74,12 @@ backend/.eslintcache
 
 # Output of 'npm pack'
 frontend/*.tgz
-backend/*.tgz
 
 # Yarn Integrity file
 .yarn-integrity
 
 # dotenv environment variable files
 frontend/.env
-backend/.env
 .env.development.local
 .env.test.local
 .env.production.local

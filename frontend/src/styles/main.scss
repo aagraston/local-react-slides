@@ -1,13 +1,43 @@
 @use './variables';
 @use './base';
 
+$direction-up-right: move-up-right;
+$direction-up-left: move-up-left;
+$direction-down-right: move-down-right;
+$direction-down-left: move-down-left;
+
+@mixin set-direction($direction) {
+    @if $direction ==up-right {
+        animation-name: spin, move-up-right;
+    }
+
+    @else if $direction ==up-left {
+        animation-name: spin, move-up-left;
+    }
+
+    @else if $direction ==down-right {
+        animation-name: spin, move-down-right;
+    }
+
+    @else if $direction ==down-left {
+        animation-name: spin, move-down-left;
+    }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
+
 // Font
-@import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');
+@font-face {
+    font-family: 'Sega Arcade';
+    src: url('../assets/SegaArcadeFont-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 body {
-    font-family: 'Varela', sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
+    font-family: "Orbitron", sans-serif !important;
+    font-weight: 900;
+    font-style: normal;
     color: variables.$color-text;
     background-color: variables.$color-background;
 }
@@ -126,4 +156,132 @@ input {
 
 h1 {
     @include base.h1;
+}
+
+#background-cubes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1; // Ensure it stays behind all content
+    pointer-events: none;
+}
+
+.cube {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    transform-style: preserve-3d;
+    animation: spin 5s linear infinite, move-up-right 12s linear infinite;
+    opacity: 0.8;
+
+    &.up-right {
+        @include set-direction(up-right);
+    }
+
+    &.up-left {
+        @include set-direction(up-left);
+    }
+
+    &.down-right {
+        @include set-direction(down-right);
+    }
+
+    &.down-left {
+        @include set-direction(down-left);
+    }
+}
+
+.trail {
+    position: absolute;
+    background: linear-gradient(45deg, #ff7eb3, #ff758c);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    opacity: 0.3;
+    animation: fadeOut 1s forwards, colorChange 2s linear infinite; // Fade out over 1 second
+    pointer-events: none; // Prevent interaction with the trail
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
+
+    100% {
+        transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+    }
+}
+
+@keyframes move-up-right {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(100vw, -100vh);
+    }
+}
+
+@keyframes move-up-left {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(-100vw, -100vh);
+    }
+}
+
+@keyframes move-down-right {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(100vw, 100vh);
+    }
+}
+
+@keyframes move-down-left {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(-100vw, 100vh);
+    }
+}
+
+@keyframes colorChange {
+    0% {
+        background: linear-gradient(45deg, #e6bca0, #ede3e5);
+    }
+
+    25% {
+        background: linear-gradient(45deg, #7ebcff, #75ff8c);
+    }
+
+    50% {
+        background: linear-gradient(45deg, #7eb3ff, #758cff);
+    }
+
+    75% {
+        background: linear-gradient(45deg, #ffb37e, #ff8c75);
+    }
+
+    100% {
+        background: linear-gradient(45deg, #ff7eb3, #ff758c);
+        /* Back to the original color */
+    }
 }
